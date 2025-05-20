@@ -13,6 +13,12 @@ export default defineConfig({
 	entry: {
 		main: "./src/main.js"
 	},
+	experiments: {
+		outputModule: true
+	},
+	output: {
+		module: true
+	},
 	resolve: {
 		extensions: ["...", ".ts", ".vue"]
 	},
@@ -49,6 +55,7 @@ export default defineConfig({
 	},
 	plugins: [
 		new rspack.HtmlRspackPlugin({
+			scriptLoading: 'module',
 			template: "./index.html"
 		}),
 		new rspack.DefinePlugin({
