@@ -1,13 +1,32 @@
 import { defineConfig } from "@rspack/cli";
-import { type RspackPluginFunction, rspack } from "@rspack/core";
+import { type RspackPluginFunction, rspack, ExternalItemFunctionData } from "@rspack/core";
 import { VueLoaderPlugin } from "vue-loader";
 
 // Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ["last 2 versions", "> 0.2%", "not dead", "Firefox ESR"];
+const isProduction = process.env.NODE_ENV === "production";
 
 export default defineConfig({
 	entry: {
-		main: "./src/main.ts"
+		vue: 'vue',
+		HelloWorld: "./src/components/HelloWorld.vue",
+		main: "./src/main.ts",
+	},
+	output: {
+        chunkFormat: isProduction ? 'module' : 'array-push',
+        module: true,
+        library: {
+            type: isProduction ? 'modern-module' : 'module'
+        },
+	},
+	externalsType: 'module-import',
+	externals: (data: ExternalItemFunctionData) => {
+		if (data.request === 'vue' && data.contextInfo?.issuer) {
+			return '/vue.mjs';
+		}
+		if (data.request === 'HelloWorld.vue') {
+			return '/HelloWorld.mjs';
+		}
 	},
 	resolve: {
 		extensions: ["...", ".ts", ".vue"]
@@ -45,6 +64,7 @@ export default defineConfig({
 	},
 	plugins: [
 		new rspack.HtmlRspackPlugin({
+			scriptLoading: "module",
 			template: "./index.html"
 		}),
 		new rspack.DefinePlugin({
@@ -54,6 +74,7 @@ export default defineConfig({
 		new VueLoaderPlugin() as RspackPluginFunction
 	],
 	optimization: {
+		runtimeChunk: "single",
 		minimizer: [
 			new rspack.SwcJsMinimizerRspackPlugin(),
 			new rspack.LightningCssMinimizerRspackPlugin({
@@ -62,6 +83,7 @@ export default defineConfig({
 		]
 	},
 	experiments: {
+		outputModule: true,
 		css: true
 	}
 });
