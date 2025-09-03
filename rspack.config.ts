@@ -9,6 +9,7 @@ const isProduction = process.env.NODE_ENV === "production";
 export default defineConfig({
 	entry: {
 		vue: 'vue',
+		myVue: './src/my-vue.ts',
 		HelloWorld: "./src/components/HelloWorld.vue",
 		main: "./src/main.ts",
 	},
@@ -67,7 +68,10 @@ export default defineConfig({
 	],
 	optimization: {
 		runtimeChunk: "single",
-		minimize: false
+		minimize: false,
+		splitChunks: {
+			chunks: "all"
+		}
 	},
 	experiments: {
 		outputModule: true,
