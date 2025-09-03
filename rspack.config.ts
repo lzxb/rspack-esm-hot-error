@@ -13,21 +13,13 @@ export default defineConfig({
 		main: "./src/main.ts",
 	},
 	output: {
-        chunkFormat: isProduction ? 'module' : 'array-push',
+        chunkFormat: 'module',
         module: true,
         library: {
-            type: isProduction ? 'modern-module' : 'module'
+            type: 'module'
         },
 	},
 	externalsType: 'module-import',
-	externals: (data: ExternalItemFunctionData) => {
-		if (data.request === 'vue' && data.contextInfo?.issuer) {
-			return '/vue.mjs';
-		}
-		if (data.request === 'HelloWorld.vue') {
-			return '/HelloWorld.mjs';
-		}
-	},
 	resolve: {
 		extensions: ["...", ".ts", ".vue"]
 	},
@@ -75,12 +67,7 @@ export default defineConfig({
 	],
 	optimization: {
 		runtimeChunk: "single",
-		minimizer: [
-			new rspack.SwcJsMinimizerRspackPlugin(),
-			new rspack.LightningCssMinimizerRspackPlugin({
-				minimizerOptions: { targets }
-			})
-		]
+		minimize: false
 	},
 	experiments: {
 		outputModule: true,
