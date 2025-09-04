@@ -14,13 +14,11 @@ export default defineConfig({
 		main: "./src/main.ts",
 	},
 	output: {
-        chunkFormat: 'module',
         module: true,
         library: {
             type: 'module'
         },
 	},
-	externalsType: 'module-import',
 	resolve: {
 		extensions: ["...", ".ts", ".vue"]
 	},
@@ -68,10 +66,7 @@ export default defineConfig({
 	],
 	optimization: {
 		runtimeChunk: "single",
-		minimize: false,
-		splitChunks: {
-			chunks: "all"
-		}
+		minimize: false
 	},
 	experiments: {
 		outputModule: true,
