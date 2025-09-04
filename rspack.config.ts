@@ -34,10 +34,10 @@ export default defineConfig({
 			{
 				test: /\.(js|ts)$/,
 				use: [
-					{
+					{ 
 						loader: "builtin:swc-loader",
 						options: {
-							jsc: {
+							jsc: { 
 								parser: {
 									syntax: "typescript"
 								}
@@ -66,7 +66,10 @@ export default defineConfig({
 	],
 	optimization: {
 		runtimeChunk: "single",
-		minimize: false
+		minimize: false,
+		splitChunks: {
+			chunks: "all"
+		}
 	},
 	experiments: {
 		outputModule: true,
