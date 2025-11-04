@@ -16,7 +16,7 @@ export default defineConfig({
 	output: {
         module: true,
         library: {
-            type: 'module'
+            type: 'modern-module'
         },
 	},
 	resolve: {
