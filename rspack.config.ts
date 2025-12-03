@@ -4,7 +4,6 @@ import { VueLoaderPlugin } from "vue-loader";
 
 // Target browsers, see: https://github.com/browserslist/browserslist
 const targets = ["last 2 versions", "> 0.2%", "not dead", "Firefox ESR"];
-const isProduction = process.env.NODE_ENV === "production";
 
 export default defineConfig({
 	entry: {
@@ -65,6 +64,7 @@ export default defineConfig({
 		new VueLoaderPlugin() as RspackPluginFunction
 	],
 	optimization: {
+		avoidEntryIife: true,
 		runtimeChunk: "single",
 		minimize: false,
 		splitChunks: {
